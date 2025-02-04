@@ -54,7 +54,18 @@ public class AddUriActivity extends AddDownloadActivity {
             optionsFragment = OptionsFragment.getInstance(this, bundle);
         } else {
             urisFragment = UrisFragment.getInstance(this, true, (URI) getIntent().getSerializableExtra("uri"));
-            optionsFragment = OptionsFragment.getInstance(this, true);
+            // HACK: really hacky way to fill filename...
+            String filename = getIntent().getStringExtra("filename");
+            if (filename != null) {
+                OptionsMap map = new OptionsMap();
+                map.put("out", filename);
+                optionsFragment = OptionsFragment.getInstance(
+                    this,
+                    new AddUriBundle(null, null, map)
+                );
+            } else {
+                optionsFragment = OptionsFragment.getInstance(this, true);
+            }
         }
 
         pager.setAdapter(new StatePagerAdapter<>(getSupportFragmentManager(), urisFragment, optionsFragment));

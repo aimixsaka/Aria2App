@@ -5636,6 +5636,7 @@
         <!-- Add download activities -->
         <activity
             android:name=".activities.AddUriActivity"
+            android:exported="true"
             android:configChanges="orientation|uiMode"
             android:parentActivityName=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.Uri" />
