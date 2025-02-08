@@ -53,10 +53,11 @@ public class AddUriActivity extends AddDownloadActivity {
             urisFragment = UrisFragment.getInstance(this, bundle);
             optionsFragment = OptionsFragment.getInstance(this, bundle);
         } else {
-            urisFragment = UrisFragment.getInstance(this, true, (URI) getIntent().getSerializableExtra("uri"));
-            // HACK: really hacky way to fill filename...
+            final String url = getIntent().getStringExtra("uri");
             String filename = getIntent().getStringExtra("filename");
-            if (filename != null) {
+            if (url != null && filename != null) {
+                // HACK: really hacky way to fill filename...
+                urisFragment = UrisFragment.getInstance(this, true, URI.create(url));
                 OptionsMap map = new OptionsMap();
                 map.put("out", filename);
                 optionsFragment = OptionsFragment.getInstance(
@@ -64,6 +65,7 @@ public class AddUriActivity extends AddDownloadActivity {
                     new AddUriBundle(null, null, map)
                 );
             } else {
+                urisFragment = UrisFragment.getInstance(this, true, (URI) getIntent().getSerializableExtra("uri"));
                 optionsFragment = OptionsFragment.getInstance(this, true);
             }
         }
